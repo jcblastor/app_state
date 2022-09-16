@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:state_app/services/user_service.dart';
+
+import '../models/models.dart';
 
 class PageTwoScreen extends StatelessWidget {
   const PageTwoScreen({Key? key}) : super(key: key);
@@ -8,7 +11,14 @@ class PageTwoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Screen One'),
+        title: StreamBuilder(
+          stream: userService.userStream,
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+            return snapshot.hasData
+                ? Text('Nombre ${snapshot.data!.name}')
+                : const Text('Screen Two');
+          },
+        ),
       ),
       body: Center(
         child: Column(
@@ -20,7 +30,11 @@ class PageTwoScreen extends StatelessWidget {
                 'Establecer Usuario',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                final newUser =
+                    User(name: 'Carlos', age: 41, professions: ['dev', 'back', 'front']);
+                userService.user = newUser;
+              },
             ),
             const SizedBox(height: 10),
             MaterialButton(
@@ -29,7 +43,9 @@ class PageTwoScreen extends StatelessWidget {
                 'Cambiar Edad',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                userService.changeAge(30);
+              },
             ),
             const SizedBox(height: 10),
             MaterialButton(
