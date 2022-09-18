@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:state_app/screen/screen.dart';
 
@@ -9,14 +10,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
       initialRoute: 'screenOne',
+      // para trabajar con rutas en getx
+      getPages: [
+        GetPage(name: '/screenOne', page: () => const PageOneScreen()),
+        GetPage(name: '/screenTwo', page: () => const PageTwoScreen()),
+      ],
+      /*
       routes: {
         'screenOne': (_) => const PageOneScreen(),
         'screenTwo': (_) => const PageTwoScreen(),
       },
+      */
     );
   }
 }
